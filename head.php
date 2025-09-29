@@ -89,14 +89,23 @@ if (!$username) {
     $cuoi_href = "dangnhap.php";
     $cuoi_text = "Đăng Nhập";
     $cuoi_onclick = "";
+
+
 } else if ($username == "admin") {
-    $giohang_href = "quanlysp.php";
+    $giohang_href = "";
     $giohang_onclick = "";
-    $giohang_text = "Quản lý Sản phẩm";
+    $giohang_text = "";
 
     $thongtin_href = "donhang.php";
     $thongtin_onclick = "";
     $thongtin_text = "Đơn Hàng";
+    
+    $quanlysanpham_href = "quanlysanpham.php";
+    $quanlysanpham_onclick = "";
+    $quanlysanpham_text = "Quản Lý Sản Phẩm";
+
+    // $dathang_href = "dathang.php";
+    // $dathang_text = "Quản Lý Đơn Hàng";
 
     $cuoi_href = "dangxuat.php";
     $cuoi_text = "Đăng Xuất (" . htmlspecialchars($_SESSION['username']) . ")";
@@ -114,23 +123,35 @@ if (!$username) {
     $thongtin_onclick = "";
     $thongtin_text = "Thông Tin Tài Khoản";
 
+    $sanpham_href = "sanpham.php";
+    $sanpham_onclick = "";
+    $sanpham_text = "Sản Phẩm";
+
+    $quanlysanpham_href = "quanlysanpham.php";
+    $quanlysanpham_onclick = "";
+    $quanlysanpham_text = "Quản Lý Sản Phẩm";
+
     $cuoi_href = "dangxuat.php";
     $cuoi_text = "Đăng Xuất (" . htmlspecialchars($_SESSION['username']) . ")";
     $cuoi_onclick = "";
 }
 ?>
 <header class="flex justify-between items-center p-4 bg-secondary" style="background-color: #FDF5E6">
-    <div class="text-2xl font-bold">NỘI THẤT TOÀN ĐẠT</div>
-    <nav class="space-x-4">
-        <a href="trangchu.php" class="text-muted hover:text-muted-foreground" style="color: black;">Trang Chủ</a>
-        <!-- <a href="sanpham.php" class="text-muted hover:text-muted-foreground" style="color: black;">Sản Phẩm</a> -->
-        <a href="<?= $giohang_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $giohang_onclick ? 'onclick="'.$giohang_onclick.'"' : '' ?>><?= $giohang_text ?></a>
-        <?php if (isset($dathang_href)): ?>
-            <a href="<?= $dathang_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;"><?= $dathang_text ?></a>
-        <?php endif; ?>
-        <a href="<?= $thongtin_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $thongtin_onclick ? 'onclick="'.$thongtin_onclick.'"' : '' ?>><?= $thongtin_text ?></a>
-        <a href="<?= $cuoi_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $cuoi_onclick ? 'onclick="'.$cuoi_onclick.'"' : '' ?>><?= $cuoi_text ?></a>
-    </nav>
+    <div class="text-2xl font-bold">NỘI THẤT HIỆN ĐẠI</div>
+  <nav class="space-x-4">
+    <a href="trangchu.php" class="text-muted hover:text-muted-foreground" style="color: black;">Trang Chủ</a>
+    <a href="sanpham.php" class="text-muted hover:text-muted-foreground" style="color: black;">Sản Phẩm</a>
+    <?php if ($username == "admin"): ?>
+        <a href="<?= $quanlysanpham_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $quanlysanpham_onclick ? 'onclick="'.$quanlysanpham_onclick.'"' : '' ?>><?= $quanlysanpham_text ?></a>
+    <?php endif; ?>
+    <!-- Các menu khác -->
+    <a href="<?= $giohang_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $giohang_onclick ? 'onclick="'.$giohang_onclick.'"' : '' ?>><?= $giohang_text ?></a>
+    <?php if (isset($dathang_href)): ?>
+        <a href="<?= $dathang_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;"><?= $dathang_text ?></a>
+    <?php endif; ?>
+    <a href="<?= $thongtin_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $thongtin_onclick ? 'onclick="'.$thongtin_onclick.'"' : '' ?>><?= $thongtin_text ?></a>
+    <a href="<?= $cuoi_href ?>" class="text-muted hover:text-muted-foreground" style="color: black;" <?= $cuoi_onclick ? 'onclick="'.$cuoi_onclick.'"' : '' ?>><?= $cuoi_text ?></a>
+</nav>
   
 
     <input type="text" id="search-box" placeholder="Search..." class="border border-muted p-2 rounded" autocomplete="off" style="width:220px; position:relative;" />

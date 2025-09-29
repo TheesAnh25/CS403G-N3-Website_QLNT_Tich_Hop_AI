@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Database connection and product data retrieval
-$msp = isset($_GET['id']) ? $_GET['id'] : '';
+$msp = isset($_GET['masp']) ? $_GET['masp'] : '';  // Đổi từ 'id' thành 'masp'
 $server = 'localhost';
 $user = 'root';
 $pass = '';
@@ -60,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $check->close();
 }
 
-
-// ...existing code...
 // Xử lý mua ngay
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_now'])) {
     if (!$tentaikhoan) {
@@ -84,8 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['buy_now'])) {
     echo "<script>alert('Đặt hàng thành công!'); window.location='dathang.php';</script>";
     exit;
 }
-// ...existing code...
-
 
 $conn->close();
 ?>
@@ -95,7 +91,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bản 1234 - Nội Thất Toàn Đạt</title>
+    <title>Chi tiết sản phẩm - Nội Thất Toàn Đạt</title>
     <style>
         * {
             margin: 0;
@@ -128,13 +124,11 @@ $conn->close();
             display: flex;
             gap: 40px;
             flex-wrap: wrap;
-            /* Responsive for mobile */
         }
 
         .product-image {
             flex: 1;
             aspect-ratio: 4 / 3;
-            /* Giữ khung hình tỉ lệ 4:3 */
             background: #f5f5f5;
             display: flex;
             align-items: center;
@@ -148,13 +142,11 @@ $conn->close();
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Lấp đầy khung hình */
             object-position: center;
             display: block;
             transition: opacity 0.3s ease;
             background: #fff;
         }
-
 
         .product-image .image-loading {
             position: absolute;
@@ -165,12 +157,10 @@ $conn->close();
 
         .product-image img[loading="lazy"] {
             opacity: 0;
-            /* Hide image while loading */
         }
 
         .product-image img.loaded {
             opacity: 1;
-            /* Show image when loaded */
         }
 
         .product-info {
@@ -273,7 +263,7 @@ $conn->close();
             color: #fff;
             padding: 12px;
             font-size: 16px;
-            cursor: வேறு;
+            cursor: pointer;
             width: 100%;
             text-align: center;
             border-radius: 8px;
@@ -288,7 +278,7 @@ $conn->close();
         }
 
         .description h2 {
-            margin-bottom: 20px பயனர்;
+            margin-bottom: 20px;
             color: #000;
             font-weight: bold;
         }
@@ -296,6 +286,15 @@ $conn->close();
         .description p {
             color: #000;
             font-weight: normal;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
         }
 
         /* Responsive for mobile */
@@ -306,33 +305,24 @@ $conn->close();
 
             .product-image {
                 height: 300px;
-                /* Adjust height for mobile */
             }
         }
     </style>
     <script>
-        function addToCart() {
-            alert('Sản phẩm đã được thêm vào giỏ hàng!');
-            // Add logic for adding to cart
-        }
-
-        function buyNow() {
-            alert('Tiến hành mua ngay!');
-            // Add logic for buying now
-        }
-
         // Handle image loading
         document.addEventListener('DOMContentLoaded', function() {
             const img = document.querySelector('.product-image img');
-            if (img.complete) {
-                img.classList.add('loaded');
-            } else {
-                img.addEventListener('load', function() {
+            if (img) {
+                if (img.complete) {
                     img.classList.add('loaded');
-                });
-                img.addEventListener('error', function() {
-                    img.src = 'images/fallback.jpg'; // Fallback image
-                });
+                } else {
+                    img.addEventListener('load', function() {
+                        img.classList.add('loaded');
+                    });
+                    img.addEventListener('error', function() {
+                        img.src = 'images/fallback.jpg'; // Fallback image
+                    });
+                }
             }
         });
     </script>
@@ -340,56 +330,64 @@ $conn->close();
 
 <body>
     <div class="container">
-        <div class="product-container">
-            <div class="product-image">
-                <span class="image-loading">Đang tải...</span>
-                <img src="<?php echo htmlspecialchars($product['anh'] ?? 'images/fallback.jpg'); ?>" alt="Product Image" loading="lazy" />
+        <?php if (!$product): ?>
+            <div class="error-message">
+                <h2>Sản phẩm không tồn tại</h2>
+                <p>Mã sản phẩm: <?php echo htmlspecialchars($msp); ?></p>
+                <p><a href="index.php">Quay lại trang chủ</a></p>
             </div>
-            <div class="product-info">
-                <h1 class="product-title"><?php echo htmlspecialchars($product['tensp'] ?? 'Sản phẩm không tồn tại'); ?></h1>
-
-                <div class="product-price">
-                    <?php
-                    $gia = isset($product['gia']) ? number_format($product['gia'], 0, ',', '.') : '0';
-                    echo $gia . ' VNĐ';
-                    ?>
+        <?php else: ?>
+            <div class="product-container">
+                <div class="product-image">
+                    <span class="image-loading">Đang tải...</span>
+                    <img src="<?php echo htmlspecialchars($product['anh'] ?? 'images/fallback.jpg'); ?>" alt="Product Image" loading="lazy" />
                 </div>
-                <div class="discount">MÃ GIẢM GIÁ: 1K</div>
+                <div class="product-info">
+                    <h1 class="product-title"><?php echo htmlspecialchars($product['tensp'] ?? 'Sản phẩm không có tên'); ?></h1>
 
-                <div class="specifications">
-                    <h3>THÔNG SỐ KỸ THUẬT</h3>
-                    <table>
-                        <tr>
-                            <th>Chất liệu</th>
-                            <td><?php echo htmlspecialchars($product['chatlieu'] ?? 'N/A'); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Màu sắc</th>
-                            <td><?php echo htmlspecialchars($product['mau'] ?? 'N/A'); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Hình thức</th>
-                            <td><?php echo htmlspecialchars($product['hinhthuc'] ?? 'N/A'); ?></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <form method="post" class="action-group">
-                    <div class="quantity-cart-group flex gap-2">
-                        <input type="number" class="quantity-input border border-gray-300 p-2 rounded" name="quantity-input" value="1" min="1">
-                        <button type="submit" name="add_to_cart" class="add-to-cart border border-primary text-primary hover:bg-primary hover:text-white p-2 rounded">THÊM VÀO GIỎ HÀNG</button>
+                    <div class="product-price">
+                        <?php
+                        $gia = isset($product['gia']) ? number_format($product['gia'], 0, ',', '.') : '0';
+                        echo $gia . ' VNĐ';
+                        ?>
                     </div>
-                    <button type="submit" name="buy_now" class="buy-now bg-primary text-white hover:bg-primary-light p-2 rounded w-full">MUA NGAY</button>
-                </form>
-            </div>
-        </div>
+                    <div class="discount">MÃ GIẢM GIÁ: 1K</div>
 
-        <section class="description">
-            <h2>MÔ TẢ SẢN PHẨM</h2>
-            <p>
-                <?php echo htmlspecialchars($product['mota'] ?? 'Không có mô tả'); ?>
-            </p>
-        </section>
+                    <div class="specifications">
+                        <h3>THÔNG SỐ KỸ THUẬT</h3>
+                        <table>
+                            <tr>
+                                <th>Chất liệu</th>
+                                <td><?php echo htmlspecialchars($product['chatlieu'] ?? 'N/A'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Màu sắc</th>
+                                <td><?php echo htmlspecialchars($product['mau'] ?? 'N/A'); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Hình thức</th>
+                                <td><?php echo htmlspecialchars($product['hinhthuc'] ?? 'N/A'); ?></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <form method="post" class="action-group">
+                        <div class="quantity-cart-group">
+                            <input type="number" class="quantity-input" name="quantity-input" value="1" min="1">
+                            <button type="submit" name="add_to_cart" class="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
+                        </div>
+                        <button type="submit" name="buy_now" class="buy-now">MUA NGAY</button>
+                    </form>
+                </div>
+            </div>
+
+            <section class="description">
+                <h2>MÔ TẢ SẢN PHẨM</h2>
+                <p>
+                    <?php echo htmlspecialchars($product['mota'] ?? 'Không có mô tả'); ?>
+                </p>
+            </section>
+        <?php endif; ?>
     </div>
 </body>
 

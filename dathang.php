@@ -1,6 +1,10 @@
-
+<?php include"head.php" ?>
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Kiểm tra nếu người dùng chưa đăng nhập
 if (!isset($_SESSION['username'])) {
     header("Location: dangnhap.php");
     exit;
@@ -8,11 +12,30 @@ if (!isset($_SESSION['username'])) {
 $tentaikhoan = $_SESSION['username'];
 $conn = new mysqli('localhost', 'root', '', 'webnoithat');
 $conn->set_charset("utf8");
+
+// Xử lý đặt hàng khi có id sản phẩm truyền vào
+if (isset($_GET['id'])) {
+    $product_id = intval($_GET['id']);
+    $sp = $conn->query("SELECT * FROM products WHERE id = $product_id")->fetch_assoc();
+    if ($sp && $sp['quantity'] > 0) {
+        $stmt = $conn->prepare("INSERT INTO dathang (masp, tensp, gia, soluong, tentaikhoan, anh, ngaydat) VALUES (?, ?, ?, 1, ?, ?, NOW())");
+        $stmt->bind_param("isdss", $sp['id'], $sp['name'], $sp['price'], $tentaikhoan, $sp['image']);
+        $stmt->execute();
+        $conn->query("UPDATE products SET quantity = quantity - 1 WHERE id = $product_id");
+    }
+    header("Location: dathang.php");
+    exit;
+}
+
+// Truy vấn đơn hàng của user
+$result = null;
 $sql = "SELECT * FROM dathang WHERE tentaikhoan = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $tentaikhoan);
-$stmt->execute();
-$result = $stmt->get_result();
+if ($stmt) {
+    $stmt->bind_param("s", $tentaikhoan);
+    $stmt->execute();
+    $result = $stmt->get_result();
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -26,11 +49,12 @@ $result = $stmt->get_result();
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #fefaf0; /* màu be nhạt */
-            display: flex;
+            /* display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; */
             min-height: 100vh;
         }
+        
         h2 {
             color: #7a5a00;
             margin-top: 20px;
@@ -43,7 +67,7 @@ $result = $stmt->get_result();
             border-collapse: collapse;
             background-color: #fffdf5;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            margin: 20px 0;
+            margin: 20px auto;
         }
         th, td {
             padding: 12px;

@@ -96,6 +96,11 @@
 --ring: 240 4.9% 83.9%;
 				}
 			}
+       .small-img {
+    width: 30%;        /* nhỏ hơn */
+    max-width: 250px;  /* giới hạn max */
+    height: auto;
+  }
 		</style>
 </head>
 
@@ -103,17 +108,17 @@
 
   <body class="bg-background text-foreground">
 
-
-    <section class="flex flex-col items-center justify-center h-screen bg-cover" style="background-image:url('https://i.pinimg.com/originals/26/31/81/263181b4c7d8c0fb70aa6fa3f6c31936.jpg');">
+    <section class="flex flex-col items-center justify-center h-[60vh] bg-cover"
+      style="background-image:url('https://i.pinimg.com/originals/26/31/81/263181b4c7d8c0fb70aa6fa3f6c31936.jpg');">
       <h1 class="text-4xl font-bold text-white">Chúng tôi mang đến những sản phẩm gia dụng chất lượng cao nhất!</h1>
-      <button class="mt-4 bg-primary text-primary-foreground p-2 rounded">Order Now</button>
+      <button onclick="window.location.href='sanpham.php'" class="mt-4 bg-primary text-primary-foreground p-2 rounded">Order Now</button>
     </section>
 
     <section class="p-8" style="background-color:#FDF5E6">
       <h2 class="text-3xl font-bold text-center">Thiết Kế Nội Thất Độc Quyền Của Chúng Tôi</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp01">
+          <a href="chitietsp.php?masp=sp01">
             <img src="https://i.pinimg.com/736x/79/a2/4f/79a24fa332c3db38b2ddddf0d08201c2.jpg" alt="Lungo Coffee" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Bàn làm việc chân sắt có hộc kéo (TS-VP39)</h3>
             <p>3.700.000 VNĐ</p><br>
@@ -121,7 +126,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp02">
+          <a href="chitietsp.php?masp=sp02">
             <img src="https://i.pinimg.com/474x/8d/b4/c7/8db4c70715d523587e252ac0c318b27e.jpg" alt="Dalgona Coffee" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Sofa đơn bọc nỉ (TS-SF11)</h3>
             <p>6.440.000 VNĐ</p><br>
@@ -129,7 +134,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp03">
+          <a href="chitietsp.php?masp=sp03">
             <img src="https://i.pinimg.com/474x/b0/5b/8e/b05b8edb178e3e95ec9d351687941f3a.jpg" alt="Iced Coffee" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Bàn IKEA 2m – Nhiều màu sắc (TS-VP32)</h3>
             <p>3.900.000 VNĐ</p><br>
@@ -137,7 +142,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp04">
+          <a href="chitietsp.php?masp=sp04">
             <img src="https://i.pinimg.com/474x/12/78/e6/1278e6bd0c0a76ae66d1d5b9b8f4d04d.jpg" alt="Filter Coffee" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Bộ Bàn Ăn Scania (Màu Tự Nhiên, Mặt Vân Đá, 140)</h3>
             <p>11.290.000 VNĐ</p>
@@ -148,7 +153,7 @@
       <h2 class="text-3xl font-bold text-center mt-8">Thiết Kế Nội Thất Đặc Biệt Của Chúng Tôi</h2>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp05">
+          <a href="chitietsp.php?masp=sp05">
             <img src="https://i.pinimg.com/736x/25/68/24/256824a0c3a8817c63d0d03e2e52666d.jpg" alt="Gulab Jamun" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Combo Giường Ngủ MOHO VLINE</h3>
             <p>16.190.000 VNĐ</p><br>
@@ -156,7 +161,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp06">
+          <a href="chitietsp.php?masp=sp06">
             <img src="https://i.pinimg.com/736x/5b/e1/29/5be1290e264c30a7abedc1fb1f7fa40a.jpg" alt="Chocolate Tiramisu" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Combo Phòng Khách MOHO VLINE Màu Tự Nhiên</h3>
             <p>17.890.000 VNĐ</p>
@@ -164,7 +169,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp07">
+          <a href="chitietsp.php?masp=sp07">
             <img src="https://i.pinimg.com/736x/aa/8b/65/aa8b655af2b0684b33ffa589fdfbffde.jpg" alt="Churros" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Tủ Quần Áo Gỗ Có Gương MOHO GRENAA 2 Nhiều Kích Thước</h3>
             <p>5.299.000 VNĐ</p>
@@ -172,7 +177,7 @@
           </a>
         </div>
         <div class="border border-muted p-4 rounded" style="background-color:#EEDFCC">
-          <a href="chitietsp.php?id=sp08">
+          <a href="chitietsp.php?masp=sp08">
             <img src="https://i.pinimg.com/736x/53/28/ad/5328ad2cfa093ca802e5256cafd5ccd6.jpg" alt="Australian Lamingtons" class="w-full h-40 object-cover rounded" />
             <h3 class="font-semibold">Combo Sofa Gỗ Cao Su Chữ L MOHO HOBRO ( Màu nâu, 2m7)</h3>
             <p>18.990.000 VNĐ</p>
@@ -184,8 +189,13 @@
 
     <section class="flex flex-col items-center p-8 bg-muted" style="background-color:#FFEFD5">
       <h2 class="text-2xl font-bold">Khám phá những thiết kế nội thất tinh tế nhất của chúng tôi</h2>
-      <img src="https://i.pinimg.com/474x/e6/1b/e1/e61be1bc18225d2734d781948f05c1cb.jpg" alt="Coffee Beans" class="w-1/2 mt-4" />
-      <button class="mt-4 bg-primary text-primary-foreground p-2 rounded" style="background-color:#CD853F">Khám phá sản phẩm của chúng tôi</button>
+      <img src="https://i.pinimg.com/474x/e6/1b/e1/e61be1bc18225d2734d781948f05c1cb.jpg" alt="Coffee Beans" class="small-img mt-4" />
+      <button onclick="window.location.href='sanpham.php'"
+        class="mt-4 bg-primary text-primary-foreground p-2 rounded"
+        style="background-color:#CD853F">
+        Khám phá sản phẩm của chúng tôi
+      </button>
+
     </section>
 
     <section class="p-8" style="background-color:#FDF5E6">

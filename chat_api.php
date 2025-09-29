@@ -19,7 +19,7 @@ $response = '';
 $userInput = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['userInput'])) {
-    $apiKey = 'AIzaSyBE3_9xrlrvm96c8WEAnhNHantJO7RtPAU';
+    $apiKey = 'AIzaSyAmspt6g4Kav8XvA9_Dtx0_sdVPtNk0rI0';
     $prompt = "Bạn là nhân viên tư vấn bán hàng nội thất. Dưới đây là danh sách sản phẩm hiện có:\n$productInfo\nHãy chỉ trả lời các câu hỏi liên quan đến sản phẩm,
      tư vấn khách hàng dựa trên thông tin trên. Nếu câu hỏi không liên quan, hãy lịch sự từ chối.\nCâu hỏi khách hàng: " . $_POST['userInput'];
     $userInput = $_POST['userInput'];
