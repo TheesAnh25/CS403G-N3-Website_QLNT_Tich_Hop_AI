@@ -1,10 +1,10 @@
 <?php
 session_start();
-    if (isset($_POST['clear_history'])) {
-        $_SESSION['chat_history'] = [];
-        echo json_encode(['history' => []]);
-        exit;
-    }
+if (isset($_POST['clear_history'])) {
+    $_SESSION['chat_history'] = [];
+    echo json_encode(['history' => []]);
+    exit;
+}
 $products = [];
 $conn = new mysqli('localhost', 'root', '', 'webnoithat');
 $conn->set_charset("utf8");
@@ -17,13 +17,30 @@ $productInfo = implode("\n", $products);
 
 $response = '';
 $userInput = '';
+if (isset($_GET['listModels'])) {
+    // Gọi API ListModels
+    $apiKey = 'YOUR_API_KEY';
+    $urlList = 'https://generativelanguage.googleapis.com/v1/models?key=' . $apiKey;
+
+    $chList = curl_init($urlList);
+    curl_setopt($chList, CURLOPT_RETURNTRANSFER, true);
+    $resList = curl_exec($chList);
+    curl_close($chList);
+
+    echo "<pre>";
+    print_r(json_decode($resList, true));
+    echo "</pre>";
+    exit;
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['userInput'])) {
     $apiKey = 'AIzaSyAmspt6g4Kav8XvA9_Dtx0_sdVPtNk0rI0';
     $prompt = "Bạn là nhân viên tư vấn bán hàng nội thất. Dưới đây là danh sách sản phẩm hiện có:\n$productInfo\nHãy chỉ trả lời các câu hỏi liên quan đến sản phẩm,
      tư vấn khách hàng dựa trên thông tin trên. Nếu câu hỏi không liên quan, hãy lịch sự từ chối.\nCâu hỏi khách hàng: " . $_POST['userInput'];
     $userInput = $_POST['userInput'];
-    $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=' . $apiKey;
+    $url = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=' . $apiKey;
+
 
     $data = [
         'contents' => [
@@ -45,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['userInput'])) {
 
     $result = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
     if ($result === false) {
         $response = 'Lỗi khi gọi API: ' . curl_error($ch);
@@ -73,4 +91,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['userInput'])) {
     // Xử lý xóa lịch sử chat
 
 }
-?>
